@@ -1,3 +1,13 @@
+//actual website
+player.songs.sort(compareTitle);
+player.playlists.sort(compareName);
+for (let song of player.songs) {
+    document.getElementById("songs").append(createSongElement(song));
+}
+for (let pl of player.playlists) {
+    document.getElementById("playlists").append(createPlaylistElement(pl));
+}
+
 /**
  * Plays a song from the player.
  * Playing a song means changing the visual indication of the currently playing song.
@@ -72,15 +82,6 @@ function createElement(tagName, children = [], classes = [], attributes = {}) {
     }
     return element;
 }
-//actual website
-player.songs.sort(compareTitle);
-player.playlists.sort(compareName);
-for (let song of player.songs) {
-    document.getElementById("songs").append(createSongElement(song));
-}
-for (let pl of player.playlists) {
-    document.getElementById("playlists").append(createPlaylistElement(pl));
-}
 
 //extra functions:
 
@@ -139,7 +140,7 @@ function playlistDuration(id) {
     }
     return sum;
 }
-//function that takes id and returns the playlist object
+//takes id and returns the playlist object
 function getPLById(id) {
     let i = 0;
     let existId = false;
