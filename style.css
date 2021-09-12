@@ -1,3 +1,10 @@
-.background {
+.songs {
     background-color: aquamarine;
+    border: 5px, solid, cyan;
+}
+
+.playlists {
+    background-color: brown;
+    border: 7px, solid, purple;
+    padding: 5px;
 }
