@@ -22,9 +22,9 @@ function createSongElement({ id, title, album, artist, duration, coverArt }) {
  * Creates a playlist DOM element based on a playlist object.
  */
 function createPlaylistElement({ id, name, songs }) {
-    const children = []
-    const classes = []
-    const attrs = {}
+    const children = [];
+    const classes = [];
+    const attrs = {};                
     return createElement("div", children, classes, attrs)
 }
 
@@ -40,8 +40,19 @@ function createPlaylistElement({ id, name, songs }) {
  * @param {Array} classes - the class list of the new element
  * @param {Object} attributes - the attributes for the new element
  */
+
 function createElement(tagName, children = [], classes = [], attributes = {}) {
-    // Your code here
+   const element = document.createElement(tagName);
+   for (let child of children) {
+       element.append(child);
+   }
+   for (let name of classes) {
+       element.classList.add(name);
+   }
+   for (let attribute in attributes) {
+       element.setAttribute(attribute, attributes[attribute]);
+   }
+   return element;
 }
 
 // You can write more code below this line
