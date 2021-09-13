@@ -1,16 +1,59 @@
 body {
     background-color: sandybrown;
 }
+
 .songs {
     background-color: aquamarine;
-    border: 5px, solid, cyan;
     display: inline-block;
-    margin: 5vh;
+    margin: 10vh;
 }
 
 .playlists {
     background-color: brown;
-    border: 7px, solid, purple;
-    margin: 5vh;
+    margin: 10vh;
     display: inline-block;
+}
+
+.short-song {
+    color: rgb(0, 255, 0);
+}
+
+.duration-color-5 {
+    color: rgb(45, 232, 0);
+}
+
+.duration-color-6 {
+    color: rgb(70, 209, 0);
+}
+
+.duration-color-7 {
+    color: rgb(93, 186, 0);
+}
+
+.duration-color-8 {
+    color: rgb(116, 163, 0);
+}
+
+.duration-color-9 {
+    color: rgb(139, 140, 0);
+}
+
+.duration-color-10 {
+    color: rgb(162, 117, 0);
+}
+
+.duration-color-11 {
+    color: rgb(185, 94, 0);
+}
+
+.duration-color-12 {
+    color: rgb(208, 71, 0);
+}
+
+.duration-color-13 {
+    color: rgb(232, 45, 0);
+}
+
+.long-song {
+    color: rgb(255, 0, 0);
 }

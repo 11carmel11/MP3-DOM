@@ -18,39 +18,28 @@ function playSong(songId) {
     alert("You are playing song number " + songId);
 }
 
-/**
- * Creates a song DOM element based on a song object.
- */
+//creates a song DOM element based on a song object.
 function createSongElement({ id, title, album, artist, duration, coverArt }) {
-    const imgElement = createElement("img");
-    imgElement.setAttribute("src", coverArt);
-    imgElement.setAttribute("alt", "album cover");
-    const pElement = createElement("p");
-    pElement.innerHTML =
-        "title:" +
-        title +
-        "<br>" +
-        "album:" +
-        album +
-        "<br>" +
-        "artist:" +
-        artist +
-        "<br>" +
-        "duration:" +
-        mmssFormat(duration);
-    const children = [pElement, imgElement];
+    const img = createElement("img", [], [], { src: coverArt, alt: "album cover" });
+    const infoDiv = createElement("div", [
+        createElement("p", [], [], {}, `Title: ${title}`),
+        createElement("p", [], [], {}, `Album: ${album}`),
+        createElement("p", [], [], {}, `Artist: ${artist}`),
+        createElement("p", [], [setClass(duration)], {}, `Duration: ${mmssFormat(duration)}`),
+    ]);
+    const children = [infoDiv, img];
     const classes = ["songs"];
     const attrs = { onclick: `playSong(${id})` };
     return createElement("div", children, classes, attrs);
 }
 
-/**
- * Creates a playlist DOM element based on a playlist object.
- */
+//Creates a playlist DOM element based on a playlist object.
 function createPlaylistElement({ id, name, songs }) {
-    const bElement = createElement("b");
-    bElement.innerHTML = "name:" + name + ", " + songs.length + " songs inside, " + mmssFormat(playlistDuration(id));
-    const children = [bElement];
+    const children = [
+        createElement("p", [], [], {}, `name: ${name}`),
+        createElement("p", [], [], {}, `${songs.length} songs inside,`),
+        createElement("p", [], [], {}, `${mmssFormat(playlistDuration(id))}`),
+    ];
     const classes = ["playlists"];
     const attrs = {};
     return createElement("div", children, classes, attrs);
@@ -60,7 +49,7 @@ function createPlaylistElement({ id, name, songs }) {
  * Creates a new DOM element.
  *
  * Example usage:
- * createElement("div", ["just text", createElement(...)], ["nana", "banana"], {id: "bla"})
+ * createElement("div", ["just text", createElement(...)], ["nanna", "banana"], {id: "bla"})
  *
  * @param {String} tagName - the type of the element
  * @param {Array} children - the child elements for the new element.
@@ -69,7 +58,7 @@ function createPlaylistElement({ id, name, songs }) {
  * @param {Object} attributes - the attributes for the new element
  */
 
-function createElement(tagName, children = [], classes = [], attributes = {}) {
+function createElement(tagName, children = [], classes = [], attributes = {}, text = null) {
     const element = document.createElement(tagName);
     for (let child of children) {
         element.append(child);
@@ -79,6 +68,9 @@ function createElement(tagName, children = [], classes = [], attributes = {}) {
     }
     for (let attribute in attributes) {
         element.setAttribute(attribute, attributes[attribute]);
+    }
+    if (text !== null) {
+        element.innerText = text;
     }
     return element;
 }
@@ -153,4 +145,18 @@ function getPLById(id) {
     if (!existId) {
         throw "error: ID is not exist";
     }
+}
+//sets the class to indicate the color
+function setClass(sec) {
+    if (sec <= 0) {
+        throw "error - duration is not standard";
+    }
+    const redness = Math.floor(sec / 30);
+    if (redness <= 4) {
+        return "short-song";
+    }
+    if (redness >= 14) {
+        return "long-song";
+    }
+    return `duration-color-${redness}`;
 }
