@@ -46,7 +46,7 @@ function handleAddSongEvent(event) {
     const title = event.path[1].children[1].children[0].value;
     const album = event.path[1].children[1].children[1].value;
     const artist = event.path[1].children[1].children[2].value;
-    const duration = event.path[1].children[1].children[3].value;
+    const duration = mmssToSec(event.path[1].children[1].children[3].value);
     const coverArt = event.path[1].children[1].children[4].value;
     return addSong({title, album, artist, duration, coverArt});
 }
@@ -243,5 +243,25 @@ function getSongById(id) {
       if (player.songs[i].id === id) {
         return player.songs[i];
       }
+    }
+  }
+//turns mm:ss to seconds
+function mmssToSec(str) {
+    let numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+    let arr = str.split(':');
+    for (let part of arr) {
+      let subArr = part.split('');
+      for (let subPart of subArr) {
+        if (!numbers.includes(subPart)) {
+          throw 'error';
+        }
+      }
+    }
+    if (arr.length === 3) {
+      if (arr[1] > 59 || arr[2] > 59) throw 'error';
+      return parseInt(arr[0]) * 3600 + parseInt(arr[1]) * 60 + parseInt(arr[2]);
+    } else {
+      if (arr[0] > 59 || arr[1] > 59) throw 'error';
+      return parseInt(arr[0]) * 60 + parseInt(arr[1]);
     }
   }
