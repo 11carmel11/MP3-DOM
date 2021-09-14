@@ -5,8 +5,7 @@ body {
 .songs {
     background-color: aquamarine;
     display: inline-block;
-    margin: 10vh;
-    position: relative;
+    margin: 7vh;
 }
 
 .playlists {
@@ -61,4 +60,13 @@ body {
 
 .buttons {
     display: inline-block;
+    cursor: pointer;
+    margin-top: 0px;
+}
+.button-span {
+    border: 3px solid green;
+}
+
+input {
+    display: block;
 }
