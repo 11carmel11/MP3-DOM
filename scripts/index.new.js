@@ -22,18 +22,28 @@ function addSong({title, album, artist, duration, coverArt}) {
 }
 
 /**
+ * Removes a song from the player, and updates the DOM to match.
+ *
+ * @param {Number} songId - the ID of the song to remove
+ */
+ function removeSong(songId) {
+    document.getElementById(songId).remove();
+}
+
+/**
  * Acts on a click event on an element inside the songs list.
  * Should handle clicks on play buttons and remove buttons of songs.
  *
  * @param {MouseEvent} event - the click event
  */
 function handleSongClickEvent(event) {
+    const id = parseInt(event.path[2].attributes[1].value);
     const target = event.target.innerText;
     if (target === "🗑️") {
-        event.path[2].remove();
+        removeSong(id);
     }
     if (target === "▶️") {
-        playSong(parseInt(event.path[2].attributes[1].value));
+        playSong(id);
     }
 }
 
