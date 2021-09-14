@@ -6,6 +6,7 @@ body {
     background-color: aquamarine;
     display: inline-block;
     margin: 10vh;
+    position: relative;
 }
 
 .playlists {
@@ -56,4 +57,8 @@ body {
 
 .long-song {
     color: rgb(255, 0, 0);
+}
+
+.buttons {
+    display: inline-block;
 }

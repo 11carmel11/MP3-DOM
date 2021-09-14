@@ -8,15 +8,6 @@ function playSong(songId) {
 }
 
 /**
- * Removes a song from the player, and updates the DOM to match.
- *
- * @param {Number} songId - the ID of the song to remove
- */
-function removeSong(songId) {
-    // Your code here
-}
-
-/**
  * Adds a song to the player, and updates the DOM to match.
  */
 function addSong({ title, album, artist, duration, coverArt }) {
@@ -30,7 +21,14 @@ function addSong({ title, album, artist, duration, coverArt }) {
  * @param {MouseEvent} event - the click event
  */
 function handleSongClickEvent(event) {
-    // Your code here
+    const target = event.target.innerText;
+    const id = parseInt(event.path[2].attributes[1].value);
+    if (target === "🗑️") {
+        event.path[2].remove();
+    }
+    if (target === "▶️") {
+        playSong(id);
+    }
 }
 
 /**
@@ -44,6 +42,7 @@ function handleAddSongEvent(event) {
 
 //Creates a song DOM element based on a song object.
 function createSongElement({ id, title, album, artist, duration, coverArt }) {
+    const buttons = createElement("span", [createElement("p", [], [], {}, "▶️"), createElement("br"), createElement("p", [], [], {}, "🗑️")], ["buttons"]);
     const img = createElement("img", [], [], { src: coverArt, alt: "album cover" });
     const infoDiv = createElement("div", [
         createElement("p", [], [], {}, `Title: ${title}`),
@@ -51,9 +50,9 @@ function createSongElement({ id, title, album, artist, duration, coverArt }) {
         createElement("p", [], [], {}, `Artist: ${artist}`),
         createElement("p", [], [setClass(duration)], {}, `Duration: ${mmssFormat(duration)}`),
     ]);
-    const children = [infoDiv, img];
+    const children = [infoDiv, buttons, img];
     const classes = ["songs"];
-    const attrs = { onclick: `playSong(${id})` };
+    const attrs = {'id': id}; // onclick: `playSong(${id})` 
     const text = null;
     const eventListeners = {'click': handleSongClickEvent};
     return createElement("div", children, classes, attrs, text, eventListeners)
@@ -139,7 +138,7 @@ document.getElementById("add-button").addEventListener("click", handleAddSongEve
 
 //extra functions:
 
-// sort by title
+//sort by title
 function compareTitle(a, b) {
     if (a.title < b.title) {
         return -1;
@@ -159,7 +158,7 @@ function compareName(a, b) {
     }
     return 0;
 }
-//function that makes the mm:ss format
+//makes the mm:ss format
 function mmssFormat(sec) {
     let hours = Math.floor(sec / 3600);
     let mins = Math.floor((sec - hours * 3600) / 60);
@@ -222,3 +221,24 @@ function setClass(sec) {
     }
     return `duration-color-${redness}`;
 }
+
+
+
+
+
+
+
+
+
+
+//generates id for songs
+ function generateSongId () {
+    let id = 1;
+    for (let i = 0; i < player.songs.length; i++) {
+        if (player.songs[i].id === id) {
+          id++;
+        }
+      }
+    return id;
+ }
+ console.log(generateSongId());
