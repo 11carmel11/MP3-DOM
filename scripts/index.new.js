@@ -10,14 +10,14 @@ function playSong(songId) {
 /**
  * Adds a song to the player, and updates the DOM to match.
  */
-function addSong({title, album, artist, duration, coverArt}) {
+function addSong({ title, album, artist, duration, coverArt }) {
     const id = player.songs.length + 1;
-    const newSong = {id, title, album, artist, duration, coverArt };
+    const newSong = { id, title, album, artist, duration, coverArt };
     player.songs.unshift(newSong);
     player.songs.sort(compareTitle);
     const nextSongObj = player.songs[player.songs.indexOf(newSong) + 1];
     const nextSongElm = document.getElementById(nextSongObj.id);
-    const songElm =  createSongElement(newSong);
+    const songElm = createSongElement(newSong);
     document.getElementById("songs").insertBefore(songElm, nextSongElm);
 }
 
@@ -26,7 +26,7 @@ function addSong({title, album, artist, duration, coverArt}) {
  *
  * @param {Number} songId - the ID of the song to remove
  */
- function removeSong(songId) {
+function removeSong(songId) {
     document.getElementById(songId).remove();
 }
 
@@ -58,7 +58,7 @@ function handleAddSongEvent(event) {
     const artist = event.path[1].children[1].children[2].value;
     const duration = mmssToSec(event.path[1].children[1].children[3].value);
     const coverArt = event.path[1].children[1].children[4].value;
-    return addSong({title, album, artist, duration, coverArt});
+    return addSong({ title, album, artist, duration, coverArt });
 }
 
 //Creates a song DOM element based on a song object.
@@ -250,28 +250,28 @@ function setClass(sec) {
 function getSongById(id) {
     let i = 0;
     for (i; i < player.songs.length; i++) {
-      if (player.songs[i].id === id) {
-        return player.songs[i];
-      }
+        if (player.songs[i].id === id) {
+            return player.songs[i];
+        }
     }
-  }
+}
 //turns mm:ss to seconds
 function mmssToSec(str) {
-    let numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-    let arr = str.split(':');
+    let numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+    let arr = str.split(":");
     for (let part of arr) {
-      let subArr = part.split('');
-      for (let subPart of subArr) {
-        if (!numbers.includes(subPart)) {
-          throw 'error';
+        let subArr = part.split("");
+        for (let subPart of subArr) {
+            if (!numbers.includes(subPart)) {
+                throw "error";
+            }
         }
-      }
     }
     if (arr.length === 3) {
-      if (arr[1] > 59 || arr[2] > 59) throw 'error';
-      return parseInt(arr[0]) * 3600 + parseInt(arr[1]) * 60 + parseInt(arr[2]);
+        if (arr[1] > 59 || arr[2] > 59) throw "error";
+        return parseInt(arr[0]) * 3600 + parseInt(arr[1]) * 60 + parseInt(arr[2]);
     } else {
-      if (arr[0] > 59 || arr[1] > 59) throw 'error';
-      return parseInt(arr[0]) * 60 + parseInt(arr[1]);
+        if (arr[0] > 59 || arr[1] > 59) throw "error";
+        return parseInt(arr[0]) * 60 + parseInt(arr[1]);
     }
-  }
+}
