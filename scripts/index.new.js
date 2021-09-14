@@ -42,7 +42,11 @@ function handleAddSongEvent(event) {
 
 //Creates a song DOM element based on a song object.
 function createSongElement({ id, title, album, artist, duration, coverArt }) {
-    const buttons = createElement("span", [createElement("p", [], [], {}, "▶️"), createElement("br"), createElement("p", [], [], {}, "🗑️")], ["buttons"]);
+    const buttons = createElement(
+        "span",
+        [createElement("p", [], [], {}, "▶️"), createElement("br"), createElement("p", [], [], {}, "🗑️")],
+        ["buttons"]
+    );
     const img = createElement("img", [], [], { src: coverArt, alt: "album cover" });
     const infoDiv = createElement("div", [
         createElement("p", [], [], {}, `Title: ${title}`),
@@ -52,10 +56,10 @@ function createSongElement({ id, title, album, artist, duration, coverArt }) {
     ]);
     const children = [infoDiv, buttons, img];
     const classes = ["songs"];
-    const attrs = {'id': id}; // onclick: `playSong(${id})` 
+    const attrs = { id: id };
     const text = null;
-    const eventListeners = {'click': handleSongClickEvent};
-    return createElement("div", children, classes, attrs, text, eventListeners)
+    const eventListeners = {};
+    return createElement("div", children, classes, attrs, text, eventListeners);
 }
 
 //Creates a playlist DOM element based on a playlist object.
@@ -63,12 +67,13 @@ function createPlaylistElement({ id, name, songs }) {
     const children = [
         createElement("p", [], [], {}, `name: ${name}`),
         createElement("p", [], [], {}, `${songs.length} songs inside,`),
-        createElement("p", [], [], {}, `${mmssFormat(playlistDuration(id))}`),]
-    const classes = ["playlists"]
-    const attrs = {}
+        createElement("p", [], [], {}, `${mmssFormat(playlistDuration(id))}`),
+    ];
+    const classes = ["playlists"];
+    const attrs = {};
     const text = null;
-    const eventListeners = {}
-    return createElement("div", children, classes, attrs, text, eventListeners)
+    const eventListeners = {};
+    return createElement("div", children, classes, attrs, text, eventListeners);
 }
 
 /**
@@ -107,34 +112,33 @@ function createElement(tagName, children = [], classes = [], attributes = {}, te
 /**
  * Inserts all songs in the player as DOM elements into the songs list.
  */
-function generateSongs(song) {
-    document.getElementById("songs").append(createSongElement(song));
+function generateSongs() {
+    const songsDiv = document.getElementById("songs");
+    for (let song of player.songs) {
+        songsDiv.append(createSongElement(song));
+    }
+    songsDiv.addEventListener("click", handleSongClickEvent);
 }
 
 /**
  * Inserts all playlists in the player as DOM elements into the playlists list.
  */
-function generatePlaylists(pl) {
-    document.getElementById("playlists").append(createPlaylistElement(pl));
+function generatePlaylists() {
+    for (let pl of player.playlists) {
+        document.getElementById("playlists").append(createPlaylistElement(pl));
+    }
 }
 
 /**
 Creating the page structure
 */
-for (let song of player.songs) {
-  generateSongs(song);  
-}
-for (let pl of player.playlists) {
-  generatePlaylists(pl);  
-}
-
+generateSongs();
+generatePlaylists();
 
 /**
 Making the add-song-button actually do something
 */
-document.getElementById("add-button").addEventListener("click", handleAddSongEvent)
-
-
+document.getElementById("add-button").addEventListener("click", handleAddSongEvent);
 
 //extra functions:
 
@@ -222,23 +226,14 @@ function setClass(sec) {
     return `duration-color-${redness}`;
 }
 
-
-
-
-
-
-
-
-
-
 //generates id for songs
- function generateSongId () {
+function generateSongId() {
     let id = 1;
     for (let i = 0; i < player.songs.length; i++) {
         if (player.songs[i].id === id) {
-          id++;
+            id++;
         }
-      }
+    }
     return id;
- }
- console.log(generateSongId());
+}
+console.log(generateSongId());
