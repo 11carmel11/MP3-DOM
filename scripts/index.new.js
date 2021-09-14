@@ -27,7 +27,19 @@ function addSong({ title, album, artist, duration, coverArt }) {
  * @param {Number} songId - the ID of the song to remove
  */
 function removeSong(songId) {
-    document.getElementById(songId).remove();
+    document.getElementById(songId).remove(); //removes the song from DOM
+    for (let pl of player.playlists) {
+        if (pl.songs.includes(songId)) {
+            pl.songs.splice(pl.songs.indexOf(songId), 1);
+            for (let i = 0; i < player.playlists.length; i++) {
+                document.querySelector(".playlists").remove();
+            }
+            if (pl.songs.length === 0) {
+                player.playlists.splice(player.playlists.indexOf(pl), 1);
+            }
+            generatePlaylists(); //generate updated playlists
+        }
+    }
 }
 
 /**
@@ -91,7 +103,7 @@ function createPlaylistElement({ id, name, songs }) {
         createElement("p", [], [], {}, `${mmssFormat(playlistDuration(id))}`),
     ];
     const classes = ["playlists"];
-    const attrs = {};
+    const attrs = { id };
     const text = null;
     const eventListeners = {};
     return createElement("div", children, classes, attrs, text, eventListeners);
@@ -218,7 +230,7 @@ function playlistDuration(id) {
     }
     return sum;
 }
-//takes id and returns the playlist object
+//returns playlist object
 function getPLById(id) {
     let i = 0;
     let existId = false;
@@ -248,8 +260,7 @@ function setClass(sec) {
 }
 //returns the song object
 function getSongById(id) {
-    let i = 0;
-    for (i; i < player.songs.length; i++) {
+    for (let i = 0; i < player.songs.length; i++) {
         if (player.songs[i].id === id) {
             return player.songs[i];
         }
